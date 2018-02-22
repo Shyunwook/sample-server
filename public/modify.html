@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="./css/signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="./js/ie-emulation-modes-warning.js"></script>
+    <script>
+        function queryParser(url){
+                        if( !url ){
+                                url = window.location.search;
+                        }
+
+                        var params={};
+                        url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str,key,value) {
+                                params[key] = value;
+                        });
+                        return params;
+                }
+      </script>
+  </head>
+
+  <body>
+    <div class="container">
+    <form class="form-signin" action="/user" method="post">
+      <h2 class="form-signin-heading">Edit Information</h2>
+      <label for="inputId" class="sr-only">ID</label>
+      <input type="text" id="inputId" class="form-control" placeholder="ID" required autofocus name="id"/>
+      <label for="inputPW" class="sr-only">password</label>
+      <input type="password" id="inputPW" style="margin-bottom:0" class="form-control" placeholder="Password" required autofocus name="password"/>
+      <label for="inputName" class="sr-only">name</label>
+      <input type="text" id="inputName" class="form-control" placeholder="Name" required autofocus name="name"/>
+      <label for="inputEmail" class="sr-only">email</label>
+      <input type="text" id="inputEmail" class="form-control" placeholder="Email" required autofocus name="email"/>
+
+      <div class="radio" id="genRadio">
+        <label class="radio-inline">
+          <input type="radio" name="gender" value="Male">Male
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="gender" value="Female">Female
+        </label>
+      </div>
+
+
+      <select name="location" class="form-control" id="selLocation">
+        <option selected="selected">Location</option>
+        <option value="경기도">경기도</option>
+        <option value="강원도">강원도</option>
+        <option value="충청남도">충청남도</option>
+        <option value="충청북도">충청북도</option>
+        <option value="전라북도">전라북도</option>
+        <option value="전라남도">전라남도</option>
+        <option value="경상북도">경상북도</option>
+        <option value="경상남도">경상남도 </option>
+      </select><br/>
+      <input class="btn btn-lg btn-primary btn-block" type="submit" value="Done">
+      <a class="btn btn-lg btn-warning btn-block"  href="../">HOME</a>
+    </form>
+  </div>
+  </body>
+  <script>
+    $.ajax({
+         url:'/user/'+queryParser().id,
+         success:function(data){
+             $('#inputId').val(data.id);
+             $('#inputPW').val(data.password);
+             $('#inputName').val(data.name);
+             $('#inputEmail').val(data.email);
+             $('#selLocation option[value='+data.location+']').attr('selected', 'selected');
+             $('#genRadio input[value='+data.gender+']').prop("checked", true);
+         }
+     })
+  </script>
+</html>
